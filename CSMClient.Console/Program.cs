@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AADHelpers;
+using CSMClient.Authentication;
+using CSMClient.Authentication.AAD;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json.Linq;
 
@@ -17,28 +20,34 @@ namespace CSMClient
         [STAThread]
         static int Main(string[] args)
         {
+            Trace.Listeners.Add(new ConsoleTraceListener());
             try
             {
+                var persistentAuthHelper = new PersistentAuthHelper();
                 if (args.Length > 0)
                 {
                     if (String.Equals(args[0], "login", StringComparison.OrdinalIgnoreCase))
                     {
-                        AzureEnvs env = AzureEnvs.Prod;
+                        var env = AzureEnvironments.Prod;
                         if (args.Length > 1)
                         {
-                            env = (AzureEnvs)Enum.Parse(typeof(AzureEnvs), args[1], ignoreCase: true);
+                            env = (AzureEnvironments)Enum.Parse(typeof(AzureEnvironments), args[1], ignoreCase: true);
                         }
-                        TokenUtils.AcquireToken(env).Wait();
+                        persistentAuthHelper.SetEnvironment(env);
+                        persistentAuthHelper.AcquireTokens().Wait();
                         return 0;
                     }
                     else if (String.Equals(args[0], "listcache", StringComparison.OrdinalIgnoreCase))
                     {
-                        TokenUtils.DumpTokenCache();
+                        foreach (var line in persistentAuthHelper.DumpTokenCache())
+                        {
+                            Console.WriteLine(line);
+                        }
                         return 0;
                     }
                     else if (String.Equals(args[0], "clearcache", StringComparison.OrdinalIgnoreCase))
                     {
-                        TokenUtils.ClearTokenCache();
+                        persistentAuthHelper.ClearTokenCache();
                         return 0;
                     }
                     else if (String.Equals(args[0], "token", StringComparison.OrdinalIgnoreCase))
@@ -48,24 +57,24 @@ namespace CSMClient
                         {
                             string tenantId = Guid.Parse(args[1]).ToString();
                             string user = null;
-                            AzureEnvs? env = null;
+                            AzureEnvironments? env = null;
                             if (args.Length >= 3)
                             {
                                 user = args[2].Contains("@") ? args[2] : null;
-                                env = user == null ? (AzureEnvs?)Enum.Parse(typeof(AzureEnvs), args[2], true) : null;
+                                env = user == null ? (AzureEnvironments?)Enum.Parse(typeof(AzureEnvironments), args[2], true) : null;
 
                                 if (args.Length >= 4)
                                 {
-                                    env = env ?? (AzureEnvs)Enum.Parse(typeof(AzureEnvs), args[3], true);
+                                    env = env ?? (AzureEnvironments)Enum.Parse(typeof(AzureEnvironments), args[3], true);
                                     user = user ?? args[3];
                                 }
                             }
 
-                            authResult = TokenUtils.GetTokenByTenant(tenantId).Result;
+                            authResult = persistentAuthHelper.GetTokenByTenant(tenantId).Result;
                         }
                         else
                         {
-                            authResult = TokenUtils.GetRecentToken().Result;
+                            authResult = persistentAuthHelper.GetRecentToken().Result;
                         }
 
                         var bearer = authResult.CreateAuthorizationHeader();
@@ -81,16 +90,16 @@ namespace CSMClient
                     {
                         if (args.Length >= 4)
                         {
-                            AzureEnvs env = AzureEnvs.Prod;
+                            AzureEnvironments env = AzureEnvironments.Prod;
                             if (args.Length >= 5)
                             {
-                                env = (AzureEnvs)Enum.Parse(typeof(AzureEnvs), args[4], ignoreCase: true);
+                                env = (AzureEnvironments)Enum.Parse(typeof(AzureEnvironments), args[4], ignoreCase: true);
                             }
 
                             string tenantId = Guid.Parse(args[1]).ToString();
                             string appId = Guid.Parse(args[2]).ToString();
                             string appKey = args[3];
-                            var authResult = TokenUtils.GetTokenBySpn(tenantId, appId, appKey, env);
+                            var authResult = persistentAuthHelper.GetTokenBySpn(tenantId, appId, appKey, env);
                             var bearer = authResult.CreateAuthorizationHeader();
                             Clipboard.SetText(bearer);
                             Console.WriteLine(bearer);
@@ -118,11 +127,11 @@ namespace CSMClient
                             AuthenticationResult authResult;
                             if (String.IsNullOrEmpty(subscriptionId))
                             {
-                                authResult = TokenUtils.GetRecentToken().Result;
+                                authResult = persistentAuthHelper.GetRecentToken().Result;
                             }
                             else
                             {
-                                authResult = TokenUtils.GetTokenBySubscription(subscriptionId).Result;
+                                authResult = persistentAuthHelper.GetTokenBySubscription(subscriptionId).Result;
                             }
 
                             string content = null;

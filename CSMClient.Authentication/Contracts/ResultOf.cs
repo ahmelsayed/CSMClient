@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AADHelpers
+namespace CSMClient.Authentication.Contracts
 {
-    public enum AzureEnvs
+    internal class ResultOf<T>
     {
-        Next = 0,
-        Current = 1,
-        Dogfood = 2,
-        Prod = 3
+        public T[] value { get; set; }
     }
 }

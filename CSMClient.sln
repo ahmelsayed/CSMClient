@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMClient", "CSMClient\CSMClient.csproj", "{306A8BEB-808B-45D4-875B-787B66FD58DA}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMClient.Authentication", "CSMClient.Authentication\CSMClient.Authentication.csproj", "{08500A8D-6529-4D56-8DA6-59F7A44BB4EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AADHelpers", "AADHelpers\AADHelpers.csproj", "{E985F094-77E0-40E0-8BC0-13D2544695CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMClient.Core", "CSMClient.Core\CSMClient.Core.csproj", "{69AC5B2E-B9EC-4EAB-9280-5AB823BD6F2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMClient.Console", "CSMClient.Console\CSMClient.Console.csproj", "{985A549F-08BC-400A-969A-37B5C26D12BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMClient.Core.Runner", "CSMClient.Core.Runner\CSMClient.Core.Runner.csproj", "{820EFCA3-F9AC-49EB-B695-1ADC354F0ACD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{306A8BEB-808B-45D4-875B-787B66FD58DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{306A8BEB-808B-45D4-875B-787B66FD58DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{306A8BEB-808B-45D4-875B-787B66FD58DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{306A8BEB-808B-45D4-875B-787B66FD58DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E985F094-77E0-40E0-8BC0-13D2544695CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E985F094-77E0-40E0-8BC0-13D2544695CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E985F094-77E0-40E0-8BC0-13D2544695CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E985F094-77E0-40E0-8BC0-13D2544695CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08500A8D-6529-4D56-8DA6-59F7A44BB4EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08500A8D-6529-4D56-8DA6-59F7A44BB4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08500A8D-6529-4D56-8DA6-59F7A44BB4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08500A8D-6529-4D56-8DA6-59F7A44BB4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69AC5B2E-B9EC-4EAB-9280-5AB823BD6F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69AC5B2E-B9EC-4EAB-9280-5AB823BD6F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69AC5B2E-B9EC-4EAB-9280-5AB823BD6F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69AC5B2E-B9EC-4EAB-9280-5AB823BD6F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{985A549F-08BC-400A-969A-37B5C26D12BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{985A549F-08BC-400A-969A-37B5C26D12BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{985A549F-08BC-400A-969A-37B5C26D12BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{985A549F-08BC-400A-969A-37B5C26D12BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820EFCA3-F9AC-49EB-B695-1ADC354F0ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820EFCA3-F9AC-49EB-B695-1ADC354F0ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820EFCA3-F9AC-49EB-B695-1ADC354F0ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820EFCA3-F9AC-49EB-B695-1ADC354F0ACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

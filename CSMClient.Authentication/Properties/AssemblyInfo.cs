@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AADHelpers")]
+[assembly: AssemblyTitle("CSMClient.Authentication")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AADHelpers")]
+[assembly: AssemblyProduct("CSMClient.Authentication")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("724a19d0-b8da-4ee4-aa2a-2a08ef1c33b8")]
+[assembly: Guid("057ddd12-4c30-4ec6-9ae0-e360cd220009")]
 
 // Version information for an assembly consists of the following four values:
 //
