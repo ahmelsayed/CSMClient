@@ -22,7 +22,18 @@ namespace CSMClient.Core
         private readonly IAuthHelper _authHelper;
         private readonly AzureEnvironments _azureEnvironment;
 
-        public DynamicClient(string apiVersion, IAuthHelper authHelper = null,
+        public static dynamic GetDynamicClient(string apiVersion, IAuthHelper authHelper = null,
+            AzureEnvironments azureEnvironment = AzureEnvironments.Prod, string url = null)
+        {
+            return new DynamicClient(apiVersion, authHelper, azureEnvironment, url);
+        }
+
+        public static dynamic GetDynamicClient(string apiVersion, string authorizationHeader, string url = null)
+        {
+            return new DynamicClient(apiVersion, authorizationHeader, url);
+        }
+
+        private DynamicClient(string apiVersion, IAuthHelper authHelper = null,
             AzureEnvironments azureEnvironment = AzureEnvironments.Prod, string url = null)
         {
             this._apiVersion = apiVersion;
@@ -31,7 +42,7 @@ namespace CSMClient.Core
             this._url = url ?? "https://management.azure.com";
         }
 
-        public DynamicClient(string apiVersion, string authorizationHeader, string url = null)
+        private DynamicClient(string apiVersion, string authorizationHeader, string url = null)
         {
             this._authorizationHeader = authorizationHeader;
             this._url = url ?? "https://management.azure.com";
@@ -121,7 +132,7 @@ namespace CSMClient.Core
             return true;
         }
 
-        private async Task<JContainer> HttpInvoke(Uri uri, string verb, string payload)
+        private async Task<HttpResponseMessage> HttpInvoke(Uri uri, string verb, string payload)
         {
             using (var client = new HttpClient(new HttpClientHandler()))
             {
@@ -156,22 +167,8 @@ namespace CSMClient.Core
                 {
                     throw new InvalidOperationException(String.Format("Invalid http verb {0}!", verb));
                 }
-                var content = await response.Content.ReadAsStringAsync();
-                if (content.StartsWith("["))
-                {
-                    return JArray.Parse(content);
-                }
-                else if (content.StartsWith("{"))
-                {
-                    return JObject.Parse(content);
-                }
-                else
-                {
-                    return JObject.FromObject(new
-                    {
-                        Content = content
-                    });
-                }
+
+                return response;
             }
         }
     }
