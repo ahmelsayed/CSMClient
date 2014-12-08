@@ -58,12 +58,12 @@ namespace CSMClient.Core
 
             if (!this._authHelper.IsCacheValid())
             {
-                await this._authHelper.AcquireTokens();
+                await this._authHelper.AcquireTokens().ConfigureAwait(false);
             }
 
             this._authorizationHeader = (await (string.IsNullOrEmpty(subscriptionId)
                 ? this._authHelper.GetRecentToken()
-                : this._authHelper.GetTokenBySubscription(subscriptionId: subscriptionId))).CreateAuthorizationHeader();
+                : this._authHelper.GetTokenBySubscription(subscriptionId: subscriptionId)).ConfigureAwait(false)).CreateAuthorizationHeader();
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -143,25 +143,19 @@ namespace CSMClient.Core
                 HttpResponseMessage response = null;
                 if (String.Equals(verb, "get", StringComparison.OrdinalIgnoreCase))
                 {
-                    response = await client.GetAsync(uri);
+                    response = await client.GetAsync(uri).ConfigureAwait(false);
                 }
                 else if (String.Equals(verb, "delete", StringComparison.OrdinalIgnoreCase))
                 {
-                    response = await client.DeleteAsync(uri);
+                    response = await client.DeleteAsync(uri).ConfigureAwait(false);
                 }
                 else if (String.Equals(verb, "post", StringComparison.OrdinalIgnoreCase))
                 {
-                    response =
-                        await
-                            client.PostAsync(uri,
-                                new StringContent(payload ?? String.Empty, Encoding.UTF8, "application/json"));
+                    response = await client.PostAsync(uri, new StringContent(payload ?? String.Empty, Encoding.UTF8, "application/json")).ConfigureAwait(false);
                 }
                 else if (String.Equals(verb, "put", StringComparison.OrdinalIgnoreCase))
                 {
-                    response =
-                        await
-                            client.PutAsync(uri,
-                                new StringContent(payload ?? String.Empty, Encoding.UTF8, "application/json"));
+                    response = await client.PutAsync(uri, new StringContent(payload ?? String.Empty, Encoding.UTF8, "application/json")).ConfigureAwait(false);
                 }
                 else
                 {

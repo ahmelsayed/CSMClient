@@ -50,9 +50,9 @@ private static void Main(string[] args)
 
         Func<object, bool> p = s => s.ToString().Equals("West US", StringComparison.OrdinalIgnoreCase);
 
-        foreach (var site in sites.Where(t => p(t["location"])))
+        foreach (dynamic site in sites.Where(t => p(t["location"])))
         {
-            Console.WriteLine(site);
+            Console.WriteLine(site.name);
         }
     }
     else
