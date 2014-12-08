@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace CSMClient.Authentication.TokenStorage
